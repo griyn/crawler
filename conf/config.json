@@ -1,0 +1,12 @@
+{
+    "name": "HiveMind",
+    "crawlers": [
+        {
+            "name": "BilibiliCrawler",
+            "type": "BilibiliCrawler",
+            "bilibili_config": {
+                "uids": ["672328094", "672342685", "672346917", "672353429", "33605910"]
+            }
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+syntax = "proto2";
+
+package flower.crawler;
+
+message HiveMindConfig {
+    optional string name = 1;
+    repeated CrawlerConfig crawlers = 2;
+};
+
+message CrawlerConfig {
+    optional string name = 1;
+    optional string type = 2;
+    optional BilibiliConfig bilibili_config = 3;
+};
+
+message BilibiliConfig {
+    repeated string uids = 1;
+};

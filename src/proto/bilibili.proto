@@ -1,0 +1,48 @@
+syntax = "proto2";
+
+package flower.crawler.bilibili;
+
+// https://www.bilibili.com/read/cv12357091/
+
+// 关注、粉丝数
+// https://api.bilibili.com/x/relation/stat?vmid=672328094
+message FromAuthorStat {
+    message Data {
+        optional int64 mid = 1;
+        optional int64 following = 2;
+        optional int64 whisper = 3;
+        optional int64 black = 4;
+        optional int64 follower = 5;
+    };
+    optional Data data = 4;
+};
+
+// up主信息
+// https://api.bilibili.com/x/space/acc/info?mid=672328094
+message FromAuthorSpace {
+    message data {
+        optional int64 mid = 1;
+        optional string name = 2;
+        optional string sex = 3;
+        optional string sign = 4;
+        optional bool fans_badge = 5; // 佩戴的牌子
+        message FansMedal {
+            message Medal {
+                optional int64 target_id = 1;
+                optional int64 level = 2;
+                optional int64 medal_name = 3;
+            }
+            optional Medal medal = 1; 
+        }
+        optional FansMedal fans_medal = 6;
+    }
+}
+
+message Save {
+    // rowkey: {uid}@{date}
+    optional string uid = 1;
+    optional string date = 2; // crawl day
+    optional string name = 3; // author name
+    optional FromAuthorStat from_author_stat = 4;
+    repeated string strs = 5;
+};
