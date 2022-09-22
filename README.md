@@ -21,7 +21,9 @@ check: curl -X GET "http://localhost:9200/"
 ```
 
 ### install AppContext
-https://github.com/griyn/AppContext，一个反射工厂，用于从配置中生成不同抓取器
+https://github.com/griyn/AppContext
+
+一个反射工厂，用于从配置中生成不同抓取器
 
 ### start
 ./a.out，完成一次抓取任务 + 存储到es
