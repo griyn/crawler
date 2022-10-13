@@ -14,13 +14,13 @@ message FromAuthorStat {
         optional int64 black = 4;
         optional int64 follower = 5;
     };
-    optional Data data = 4;
+    optional Data data = 1;
 };
 
 // up主信息
 // https://api.bilibili.com/x/space/acc/info?mid=672328094
 message FromAuthorSpace {
-    message data {
+    message Data {
         optional int64 mid = 1;
         optional string name = 2;
         optional string sex = 3;
@@ -30,12 +30,13 @@ message FromAuthorSpace {
             message Medal {
                 optional int64 target_id = 1;
                 optional int64 level = 2;
-                optional int64 medal_name = 3;
+                optional string medal_name = 3;
             }
             optional Medal medal = 1; 
         }
         optional FansMedal fans_medal = 6;
     }
+    optional Data data = 1;
 }
 
 message Save {
@@ -44,5 +45,5 @@ message Save {
     optional string date = 2; // crawl day
     optional string name = 3; // author name
     optional FromAuthorStat from_author_stat = 4;
-    repeated string strs = 5;
+    optional FromAuthorSpace from_author_space = 5;
 };

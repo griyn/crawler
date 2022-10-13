@@ -54,6 +54,13 @@ int Ripper::get(const std::string& url, std::string* header, std::string* body) 
 
     curl_easy_reset(_curl);
 
+    struct curl_slist* request_headers = NULL;
+    request_headers = curl_slist_append(request_headers, 
+            "User-Agent:Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15"
+                " (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1");
+
+    curl_easy_setopt(_curl, CURLOPT_HTTPHEADER, request_headers);
+
     curl_easy_setopt(_curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(_curl, CURLOPT_HTTPGET, 1L);
 
@@ -64,9 +71,12 @@ int Ripper::get(const std::string& url, std::string* header, std::string* body) 
 
     CURLcode res = curl_easy_perform(_curl);
     if (res != CURLE_OK) {
+        curl_slist_free_all(request_headers);
         LOG(WARNING) << "curl_easy_perform() failed:" << curl_easy_strerror(res);
         return -1;
     }
+
+    curl_slist_free_all(request_headers);
 
     return 0;
 }
@@ -84,6 +94,7 @@ int Ripper::post(const std::string& url, const std::string& json,
     request_headers = curl_slist_append(request_headers, 
             "Content-Type:application/json;charset=UTF-8");
     curl_easy_setopt(_curl, CURLOPT_HTTPHEADER, request_headers);
+
     curl_easy_setopt(_curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(_curl, CURLOPT_POST, 1L);
     curl_easy_setopt(_curl, CURLOPT_POSTFIELDS, json.c_str());
@@ -96,6 +107,7 @@ int Ripper::post(const std::string& url, const std::string& json,
 
     CURLcode res = curl_easy_perform(_curl);
     if (res != CURLE_OK) {
+        curl_slist_free_all(request_headers);
         LOG(WARNING) << "curl_easy_perform() failed:" << curl_easy_strerror(res);
         return -1;
     }
